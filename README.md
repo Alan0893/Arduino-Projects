@@ -15,4 +15,7 @@
 8. 1 Potentiometer (250k ohms)
 9. 1 LCD 16x2
 10. 1 Resistor (220 ohms)
-<img src="https://cdn.discordapp.com/attachments/931315645130350634/936005745726590996/unknown.png" height="400" width="342.5" alt="Components">
+<img src="https://cdn.discordapp.com/attachments/931315645130350634/936005745726590996/unknown.png" height="342.5" width="400" alt="Components">
+
+## Schematic
+<img src="https://cdn.discordapp.com/attachments/931315645130350634/936007128060133376/unknown.png" height="348" width="462" alt="Schematic">
