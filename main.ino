@@ -65,7 +65,8 @@ void setup()
 
 void loop() {
   // put your main code here, to run repeatedly:
-  checkButtons();
+  //checkButtons();
+  onClick();
 }
 void onClick(){
   int b1state = digitalRead(b1);
@@ -80,22 +81,37 @@ void onClick(){
   long time = millis();
   //int secs = time/1000;
   
+  lcd.setCursor(posCursor,0);
+  blinkNum(displayNum);
+  
   if(b1state == 1 && time >= future){
     if(displayNum != 0){
       displayNum--;
     }
     future = time + 250;
+    
+    lcd.setCursor(posCursor, 0);
+    lcd.print(displayNum);
   }
   else if(b2state == 1 && time >= future){
+    future = time + 250;
+    
+    lcd.setCursor(posCursor,0);
+    lcd.print(displayNum);
+    
     currNum = currNum * 10 + displayNum;
     displayNum = 5;
-    future = time + 250;
+    posCursor++;
+    
   }
   else if(b3state == 1 && time >= future){
     if(displayNum != 9){
       displayNum++;
     }
     future = time + 250;
+    
+    lcd.setCursor(posCursor, 0);
+    lcd.print(displayNum);
   }
   else if(b4state == 1 && time >= future){
     firstNum = currNum;
@@ -131,6 +147,19 @@ void onClick(){
     noTone(buzzer);
   }
 }
+
+//Blinking the current number on the LCD
+void blinkNum(int num) {
+  long time = millis();
+  long sec = time/500;
+  
+  if(sec%2 == 0)
+    lcd.print(num);
+  else
+    lcd.print(" ");
+}
+
+//Checking the Button state
 void checkButtons(){
   int b1state = digitalRead(b1);
   int b2state = digitalRead(b2);
