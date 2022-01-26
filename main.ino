@@ -8,6 +8,11 @@ int buzzer;
 
 //globals
 long future;
+double ans;
+int displayNum;
+int currNum;
+int operation;
+
 //boolean b1Pressed,b2Pressed,b3Pressed,b4Pressed,b5Pressed,b6Pressed,b7Pressed,b8Pressed;
 void setup()
 {
@@ -67,9 +72,9 @@ void playTone(){
   long time = millis();
   //int secs = time/1000;
 
-  if(b8state == 1 && time >= future){
-    tone(buzzer,500);
-    future = time + 500;
+  if(b1state == 1 && time >= future){
+    
+    future = time + 250;
   }
   else{
     noTone(buzzer);
