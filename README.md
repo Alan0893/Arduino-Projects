@@ -2,7 +2,7 @@
 **Arduino Project #2 - Calculator**
 
 ## Tinker Wiring Model
-<img src="https://cdn.discordapp.com/attachments/931553071761334313/935673686994845716/unknown.png" height="348" width="200" alt="Wiring">
+<img src="https://cdn.discordapp.com/attachments/931553071761334313/936002966576590848/unknown.png" height="611.5" width="341.5" alt="Wiring">
 
 ## Required Materials
 1. 1 Arduino
