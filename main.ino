@@ -12,8 +12,10 @@ double ans;
 int displayNum;
 int currNum;
 int operation;
+int firstNum;
+int secondNum;
+int posCursor;
 
-//boolean b1Pressed,b2Pressed,b3Pressed,b4Pressed,b5Pressed,b6Pressed,b7Pressed,b8Pressed;
 void setup()
 {
   Serial.begin(9600);
@@ -52,14 +54,20 @@ void setup()
 
   //instantiate globals
   future = 0;
-  //b1Pressed,b2Pressed,b3Pressed,b4Pressed,b5Pressed,b6Pressed,b7Pressed,b8Pressed = false;
+  ans = 0;
+  displayNum = 5;
+  currNum = 0;
+  operation = 0;
+  firstNum = 0;
+  secondNum = 0;
+  posCursor = 0;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  playTone();
+  checkButtons();
 }
-void playTone(){
+void onClick(){
   int b1state = digitalRead(b1);
   int b2state = digitalRead(b2);
   int b3state = digitalRead(b3);
@@ -71,13 +79,82 @@ void playTone(){
 
   long time = millis();
   //int secs = time/1000;
-
+  
   if(b1state == 1 && time >= future){
-    
+    if(displayNum != 0){
+      displayNum--;
+    }
+    future = time + 250;
+  }
+  else if(b2state == 1 && time >= future){
+    currNum = currNum * 10 + displayNum;
+    displayNum = 5;
+    future = time + 250;
+  }
+  else if(b3state == 1 && time >= future){
+    if(displayNum != 9){
+      displayNum++;
+    }
+    future = time + 250;
+  }
+  else if(b4state == 1 && time >= future){
+    firstNum = currNum;
+    currNum = 0;
+    operation = 1;
+    future = time + 250;
+  }
+  else if(b5state == 1 && time >= future){
+    firstNum = currNum;
+    currNum = 0;
+    operation = 2;
+    future = time + 250;
+  }
+  else if(b6state == 1 && time >= future){
+    firstNum = currNum;
+    currNum = 0;
+    operation = 3;
+    future = time + 250;
+  }
+  else if(b7state == 1 && time >= future){
+    firstNum = currNum;
+    currNum = 0;
+    operation = 4;
+    future = time + 250;
+  }
+  else if(b8state == 1 && time >= future){
+    secondNum = currNum;
+    currNum = 0;
+    operation = 0;
     future = time + 250;
   }
   else{
     noTone(buzzer);
   }
+}
+void checkButtons(){
+  int b1state = digitalRead(b1);
+  int b2state = digitalRead(b2);
+  int b3state = digitalRead(b3);
+  int b4state = digitalRead(b4);
+  int b5state = digitalRead(b5);
+  int b6state = digitalRead(b6);
+  int b7state = digitalRead(b7);
+  int b8state = digitalRead(b8);
 
+  Serial.print("b1 = ");
+  Serial.println(b1state);
+  Serial.print("b2 = ");
+  Serial.println(b2state);
+  Serial.print("b3 = ");
+  Serial.println(b3state);
+  Serial.print("b4 = ");
+  Serial.println(b4state);
+  Serial.print("b5 = ");
+  Serial.println(b5state);
+  Serial.print("b6 = ");
+  Serial.println(b6state);
+  Serial.print("b7 = ");
+  Serial.println(b7state);
+  Serial.print("b8 = ");
+  Serial.println(b8state);
 }
