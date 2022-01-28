@@ -17,6 +17,7 @@ int firstNum;
 int secondNum;
 int posCursor;
 boolean gotAns;
+int prevCursor;
 
 //SETUP 
 void setup()
@@ -62,6 +63,7 @@ void setup()
   secondNum = 0;  //The second number after the operation
   posCursor = 0;  //The position of the cursor on the LCD
   gotAns = false; //Checks if answer was obtained
+  prevCursor = 0;
 }
 
 void loop() {
@@ -89,6 +91,7 @@ void onClick(){
     blinkNum(displayNum); //Blinks the current displayed number
   }
   else if(gotAns) { //Else answer was obtained
+    lcd.setCursor(prevCursor,0);
     lcd.print(" "); //Print nothing after equal sign was pressed
   }
   
@@ -184,6 +187,7 @@ void onClick(){
     lcd.print(ans); //Prints the answer on the LCD
     gotAns = true;  //Sets gotAns to true, since answer was obtained
 
+    prevCursor = posCursor;
     posCursor = 0;  //Resets posCursor to 0, since answer was obtained
     operation = 0;  //Operation is reset to 0, for new equation
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
