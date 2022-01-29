@@ -111,6 +111,7 @@ void onClick(){
     lcd.print(displayNum);    //Displaying the number on the LCD
 
     currNum = currNum * 10 + displayNum;  //Getting the current number
+    firstNum = currNum;
     displayNum = 5; //Resetting the displayed number to 5 for next number
     posCursor++;  //Adding a column to the cursor position
   }
@@ -124,16 +125,22 @@ void onClick(){
     lcd.print(displayNum);      //Displaying the number on the LCD
   }
   else if(b4state == 1 && time >= future){  //BUTTON 4 (+)
+    if(operation != 0) {  //User pressed another operation
+      posCursor--;  //going back 1 position to override the previous operation shown on LCD
+    }
     lcd.setCursor(posCursor,0); //Setting the cursor of the LCD
     lcd.print("+");   //Printing the plus sign
     posCursor++;  //Adding a column to the cursor position
-    
+
     firstNum = currNum; //Setting the first number to the current number obtained
     currNum = 0;  //Resetting currNum to 0 for second number
-    operation = 1;  //Setting operation to 1 for addition
+    operation = 1;  //Setting operation to 1 for addition 
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
   else if(b5state == 1 && time >= future){  //BUTTON 5 (-)
+    if(operation != 0) { //User pressed another operation
+      posCursor--;
+    }
     lcd.setCursor(posCursor,0); //Setting the cursor on the LCD
     lcd.print("-"); //Printing the minus sign
     posCursor++;  //Adding a column to the cursor position
@@ -144,6 +151,9 @@ void onClick(){
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
   else if(b6state == 1 && time >= future){  //BUTTON 6 (x)
+    if(operation != 0) { //User pressed another operation
+      posCursor--;
+    }
     lcd.setCursor(posCursor,0); //Setting the cursor on the LCD
     lcd.print("x"); //Printing the times sign
     posCursor++;  //Adding a column to the cursor position
@@ -154,6 +164,9 @@ void onClick(){
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
   else if(b7state == 1 && time >= future){  //BUTTON 7 (/)
+    if(operation != 0){
+      posCursor--;
+    }
     lcd.setCursor(posCursor,0); //Setting the cursor on the LCD
     lcd.print("/"); //Printing the divide sign
     posCursor++;  //Adding a column to the cursor position
@@ -184,7 +197,7 @@ void onClick(){
     }
 
     lcd.setCursor(0,1); //Sets the cursor to print the answer on the LCD
-    lcd.print(ans); //Prints the answer on the LCD
+    lcd.print((int)ans); //Prints the answer on the LCD
     gotAns = true;  //Sets gotAns to true, since answer was obtained
 
     prevCursor = posCursor;
@@ -233,14 +246,14 @@ void blinkLED(int led) {
  * @param buzzer 
  * @param tone 
  */
-void playTone(int buzzer, double tone) {
+void playTone(int buz, double freq) {
   long time = millis();
   long sec = time/500;
 
   if(sec%2 == 0)
-    tone(buzzer, tone);
+    tone(buz, freq);
   else
-    noTone(buzzer);
+    noTone(buz);
 }
 
 //Checking the Button state
