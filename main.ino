@@ -111,7 +111,7 @@ void onClick(){
     lcd.print(displayNum);    //Displaying the number on the LCD
 
     currNum = currNum * 10 + displayNum;  //Getting the current number
-    firstNum = currNum;
+    //firstNum = currNum;
     displayNum = 5; //Resetting the displayed number to 5 for next number
     posCursor++;  //Adding a column to the cursor position
   }
@@ -128,12 +128,23 @@ void onClick(){
     if(operation != 0) {  //User pressed another operation
       posCursor--;  //going back 1 position to override the previous operation shown on LCD
     }
+    else {
+      firstNum = currNum; //Setting the first number to the current number obtained
+      currNum = 0;  //Resetting currNum to 0 for second number
+    }
+    
+    if(gotAns) {
+      gotAns = false;
+      firstNum = ans;
+      lcd.setCursor(0, 0);
+      lcd.print("Ans");
+      posCursor = 3;
+    }
+    
     lcd.setCursor(posCursor,0); //Setting the cursor of the LCD
     lcd.print("+");   //Printing the plus sign
     posCursor++;  //Adding a column to the cursor position
 
-    firstNum = currNum; //Setting the first number to the current number obtained
-    currNum = 0;  //Resetting currNum to 0 for second number
     operation = 1;  //Setting operation to 1 for addition 
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
@@ -141,12 +152,23 @@ void onClick(){
     if(operation != 0) { //User pressed another operation
       posCursor--;
     }
+    else {
+      firstNum = currNum; //Setting the first number to the current number obtained
+      currNum = 0;  //Resetting currNum to 0 for second number
+    }
+    
+    if(gotAns) {
+      gotAns = false;
+      firstNum = ans;
+      lcd.setCursor(0, 0);
+      lcd.print("Ans");
+      posCursor = 3;
+    }
+    
     lcd.setCursor(posCursor,0); //Setting the cursor on the LCD
     lcd.print("-"); //Printing the minus sign
     posCursor++;  //Adding a column to the cursor position
     
-    firstNum = currNum; //Setting the first number to current number obtained
-    currNum = 0;  //Resetting currNum to 0 for second number
     operation = 2;  //Setting operation to 2 for subtraction
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
@@ -154,12 +176,23 @@ void onClick(){
     if(operation != 0) { //User pressed another operation
       posCursor--;
     }
+    else {
+      firstNum = currNum; //Setting the first number to the current number obtained
+      currNum = 0;  //Resetting currNum to 0 for second number
+    }
+    
+    if(gotAns) {
+      gotAns = false;
+      firstNum = ans;
+      lcd.setCursor(0, 0);
+      lcd.print("Ans");
+      posCursor = 3;
+    }
+    
     lcd.setCursor(posCursor,0); //Setting the cursor on the LCD
     lcd.print("x"); //Printing the times sign
     posCursor++;  //Adding a column to the cursor position
 
-    firstNum = currNum; //Setting the first number to current number obtainted
-    currNum = 0;  //Resetting currNum to 0 for second number
     operation = 3;  //Setting operation to 3 for multiplication
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
@@ -167,12 +200,23 @@ void onClick(){
     if(operation != 0){
       posCursor--;
     }
+    else {
+      firstNum = currNum; //Setting the first number to the current number obtained
+      currNum = 0;  //Resetting currNum to 0 for second number
+    }
+    
+    if(gotAns) {
+      gotAns = false;
+      firstNum = ans;
+      lcd.setCursor(0, 0);
+      lcd.print("Ans");
+      posCursor = 3;
+    }
+    
     lcd.setCursor(posCursor,0); //Setting the cursor on the LCD
     lcd.print("/"); //Printing the divide sign
     posCursor++;  //Adding a column to the cursor position
-    
-    firstNum = currNum; //Setting the first number to current number obtained
-    currNum = 0;  //Resetting currNum to 0 for second number
+
     operation = 4;  //Setting operation to 4 for division
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
