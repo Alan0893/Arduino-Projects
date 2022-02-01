@@ -71,10 +71,6 @@ void setup()
 void loop() {
   //checkButtons();
   onClick();
-  Serial.print("posCursor = ");
-  Serial.println(posCursor);
-  Serial.print("opPos = ");
-  Serial.println(opPos);
 }
 void onClick(){
   //The states of the buttons
@@ -102,6 +98,14 @@ void onClick(){
   }
   
   if(b1state == 1 && time >= future){ //BUTTON 1 (<--)
+    int note = getTone(displayNum);
+    tone(buzzer, note);
+
+    if(gotAns) {
+        onReset();
+        lcd.clear();
+    }
+
     if(displayNum != 0){  //While the current displayed number isn't 0
       displayNum--;       //Subtract 1 : 5 --> 4 --> 3 ...
     }
@@ -111,7 +115,15 @@ void onClick(){
     lcd.print(displayNum);      //Displaying the number on the LCD 
   }
   else if(b2state == 1 && time >= future){  //BUTTON 2 (SELECT)
+    int note = getTone(displayNum);
+    tone(buzzer, note);
+
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
+
+    if(gotAns) {
+        onReset();
+        lcd.clear();
+    }
 
     lcd.setCursor(posCursor,0); //Setting the cursor of the LCD
     lcd.print(displayNum);    //Displaying the number on the LCD
@@ -122,6 +134,14 @@ void onClick(){
     posCursor++;  //Adding a column to the cursor position
   }
   else if(b3state == 1 && time >= future){ //BUTTON 3 (-->)
+    int note = getTone(displayNum);
+    tone(buzzer, note);
+
+    if(gotAns) {
+        onReset();
+        lcd.clear();
+    }
+
     if(displayNum != 9){  //While the current displayed number isn't 9
       displayNum++;       //Add 1 5 --> 6 --> 7 ...
     }
@@ -131,6 +151,9 @@ void onClick(){
     lcd.print(displayNum);      //Displaying the number on the LCD
   }
   else if(b4state == 1 && time >= future){  //BUTTON 4 (+)
+    int note = getTone(displayNum);
+    tone(buzzer, note);
+
     if(operation != 0 && (posCursor-opPos <= 1)) {  //User pressed another operation
       posCursor--;  //going back 1 position to override the previous operation shown on LCD
     }
@@ -140,6 +163,9 @@ void onClick(){
     }
     
     if(gotAns) {
+      lcd.clear();
+      lcd.setCursor(0,1);
+      lcd.print(ans);
       gotAns = false;
       firstNum = ans;
       lcd.setCursor(0, 0);
@@ -147,7 +173,7 @@ void onClick(){
       posCursor = 3;
     }
 
-    if(posCursor-opPos > 1)
+    if(posCursor-opPos > 1 && operation != 0)
     {
       currNum = currNum * 10 + displayNum;  //Getting the current number
       onSecOp();
@@ -168,6 +194,9 @@ void onClick(){
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
   else if(b5state == 1 && time >= future){  //BUTTON 5 (-)
+    int note = getTone(displayNum);
+    tone(buzzer, note);
+
     if(operation != 0 && (posCursor-opPos <= 1)) {  //User pressed another operation
       posCursor--;
     }
@@ -177,6 +206,9 @@ void onClick(){
     }
     
     if(gotAns) {
+      lcd.clear();
+      lcd.setCursor(0,1);
+      lcd.print(ans);
       gotAns = false;
       firstNum = ans;
       lcd.setCursor(0, 0);
@@ -184,14 +216,14 @@ void onClick(){
       posCursor = 3;
     }
 
-    if(posCursor-opPos > 1)
+    if(posCursor-opPos > 1 && operation != 0)
     {
       currNum = currNum * 10 + displayNum;  //Getting the current number
       onSecOp();
       gotAns = false;
       firstNum = ans;
       lcd.setCursor(0, 0);
-      lcd.print("Ans+");
+      lcd.print("Ans-");
       operation = 1;
       posCursor = 4;
     }
@@ -205,6 +237,9 @@ void onClick(){
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
   else if(b6state == 1 && time >= future){  //BUTTON 6 (x)
+    int note = getTone(displayNum);
+    tone(buzzer, note);
+
     if(operation != 0 && (posCursor-opPos <= 1)) {  //User pressed another operation
       posCursor--;
     }
@@ -214,6 +249,9 @@ void onClick(){
     }
     
     if(gotAns) {
+      lcd.clear();
+      lcd.setCursor(0,1);
+      lcd.print(ans);
       gotAns = false;
       firstNum = ans;
       lcd.setCursor(0, 0);
@@ -221,14 +259,14 @@ void onClick(){
       posCursor = 3;
     }
 
-    if(posCursor-opPos > 1)
+    if(posCursor-opPos > 1 && operation != 0)
     {
       currNum = currNum * 10 + displayNum;  //Getting the current number
       onSecOp();
       gotAns = false;
       firstNum = ans;
       lcd.setCursor(0, 0);
-      lcd.print("Ans+");
+      lcd.print("Ansx");
       operation = 1;
       posCursor = 4;
     }
@@ -242,6 +280,9 @@ void onClick(){
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
   else if(b7state == 1 && time >= future){  //BUTTON 7 (/)
+    int note = getTone(displayNum);
+    tone(buzzer, note);
+
     if(operation != 0 && (posCursor-opPos <= 1)) {  //User pressed another operation
       posCursor--;
     }
@@ -251,14 +292,17 @@ void onClick(){
     }
     
     if(gotAns) {
+      lcd.clear();
+      lcd.setCursor(0,1);
+      lcd.print(ans);
       gotAns = false;
       firstNum = ans;
       lcd.setCursor(0, 0);
-      lcd.print("Ans");
+      lcd.print("Ans/");
       posCursor = 3;
     }
 
-    if(posCursor-opPos > 1)
+    if(posCursor-opPos > 1 && operation != 0)
     {
       currNum = currNum * 10 + displayNum;  //Getting the current number
       onSecOp();
@@ -279,6 +323,9 @@ void onClick(){
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
   else if(b8state == 1 && time >= future){  //BUTTON 8 (=)
+    int note = getTone(displayNum);
+    tone(buzzer, note);
+    
     secondNum = currNum;  //Makes the second number equal to currNum
     currNum = 0;  //Resetting currNum to 0 since second number was obtained
 
@@ -310,6 +357,70 @@ void onClick(){
   else{ //No button was pressed
     noTone(buzzer); //No sound
   }
+}
+
+//Gets the tone to play
+int getTone(int currentNum) {
+  //The states of the buttons
+  int b1state = digitalRead(b1);
+  int b2state = digitalRead(b2);
+  int b3state = digitalRead(b3);
+  int b4state = digitalRead(b4);
+  int b5state = digitalRead(b5);
+  int b6state = digitalRead(b6);
+  int b7state = digitalRead(b7);
+  int b8state = digitalRead(b8);
+
+  if(b1state == 1 || b3state == 1) {
+    if(currentNum == 0)
+      return 440; //A
+    else if(currentNum == 1)
+      return 466; //A#
+    else if(currentNum == 2)
+      return 493; //B
+    else if(currentNum == 3)
+      return 523; //C
+    else if(currentNum == 4)
+      return 554; //C#
+    else if(currentNum == 5)
+      return 587; //D
+    else if(currentNum == 6)
+      return 622; //D#
+    else if(currentNum == 7)
+      return 659; //E
+    else if(currentNum == 8)
+      return 698; //F
+    else if(currentNum == 9)
+      return 739; //F#
+  }
+  else if(b2state == 1)
+    return 783;   //G 
+  else if(b4state == 1)
+    return 830;   //G#
+  else if(b5state == 1)
+    return 880;   //A
+  else if(b6state == 1)
+    return 932;   //A#
+  else if(b7state == 1)
+    return 987;   //B
+  else if(b8state == 1)
+    return 1046;  //C
+  else
+    return 0;     //SILENCE
+}
+
+//Resets the variables
+void onReset() {
+  ans = 0;        //Final Answer
+  displayNum = 5; //The current single number being displayed
+  currNum = 0;    //The current whole number being displayed
+  operation = 0;  //The operation being called (+, -, x, /)
+  firstNum = 0;   //The first number 
+  secondNum = 0;  //The second number after the operation
+  posCursor = 0;  //The position of the cursor on the LCD
+  gotAns = false; //Checks if answer was obtained
+  prevCursor = 0; //Previous cursor on the LCD
+  opPos = 0;   //Position of the operation
 }
 
 //If a second operation is pressed after a second number is created
