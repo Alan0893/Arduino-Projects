@@ -19,6 +19,7 @@ int posCursor;
 boolean gotAns;
 int prevCursor;
 int opPos;
+boolean bPressed;
 
 //SETUP 
 void setup()
@@ -66,6 +67,7 @@ void setup()
   gotAns = false; //Checks if answer was obtained
   prevCursor = 0; //Previous cursor on the LCD
   opPos = 0;   //Position of the operation
+  bPressed = false;
 }
 
 void loop() {
@@ -102,7 +104,8 @@ void onClick(){
     lcd.print(" "); //Print nothing after equal sign was pressed
   }
   
-  if(b1state == 1 && time >= future){ //BUTTON 1 (<--)
+  if(b1state == 1 && time >= future && !bPressed){ //BUTTON 1 (<--)
+    bPressed = true;
     if(gotAns) {
         onReset();
         lcd.clear();
@@ -116,7 +119,8 @@ void onClick(){
     lcd.setCursor(posCursor,0); //Setting the cursor of the LCD
     lcd.print(displayNum);      //Displaying the number on the LCD 
   }
-  else if(b2state == 1 && time >= future){  //BUTTON 2 (SELECT)
+  else if(b2state == 1 && time >= future && !bPressed){  //BUTTON 2 (SELECT)
+    bPressed = true;
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
 
     if(gotAns) {
@@ -132,7 +136,8 @@ void onClick(){
     displayNum = 5; //Resetting the displayed number to 5 for next number
     posCursor++;  //Adding a column to the cursor position
   }
-  else if(b3state == 1 && time >= future){ //BUTTON 3 (-->)
+  else if(b3state == 1 && time >= future && !bPressed){ //BUTTON 3 (-->)
+    bPressed = true;
     if(gotAns) {
         onReset();
         lcd.clear();
@@ -146,7 +151,8 @@ void onClick(){
     lcd.setCursor(posCursor,0); //Setting the cursor of the LCD
     lcd.print(displayNum);      //Displaying the number on the LCD
   }
-  else if(b4state == 1 && time >= future){  //BUTTON 4 (+)
+  else if(b4state == 1 && time >= future && !bPressed){  //BUTTON 4 (+)
+    bPressed = true;
     if(operation != 0 && (posCursor-opPos <= 1)) {  //User pressed another operation
       posCursor--;  //going back 1 position to override the previous operation shown on LCD
     }
@@ -186,7 +192,8 @@ void onClick(){
     operation = 1;  //Setting operation to 1 for addition 
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
-  else if(b5state == 1 && time >= future){  //BUTTON 5 (-)
+  else if(b5state == 1 && time >= future && !bPressed){  //BUTTON 5 (-)
+    bPressed = true;
     if(operation != 0 && (posCursor-opPos <= 1)) {  //User pressed another operation
       posCursor--;
     }
@@ -226,7 +233,8 @@ void onClick(){
     operation = 2;  //Setting operation to 2 for subtraction
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
-  else if(b6state == 1 && time >= future){  //BUTTON 6 (x)
+  else if(b6state == 1 && time >= future && !bPressed){  //BUTTON 6 (x)
+    bPressed = true;
     if(operation != 0 && (posCursor-opPos <= 1)) {  //User pressed another operation
       posCursor--;
     }
@@ -266,7 +274,8 @@ void onClick(){
     operation = 3;  //Setting operation to 3 for multiplication
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
-  else if(b7state == 1 && time >= future){  //BUTTON 7 (/)
+  else if(b7state == 1 && time >= future && !bPressed){  //BUTTON 7 (/)
+    bPressed = true;
     if(operation != 0 && (posCursor-opPos <= 1)) {  //User pressed another operation
       posCursor--;
     }
@@ -306,7 +315,8 @@ void onClick(){
     operation = 4;  //Setting operation to 4 for division
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
   }
-  else if(b8state == 1 && time >= future){  //BUTTON 8 (=)
+  else if(b8state == 1 && time >= future && !bPressed){  //BUTTON 8 (=)
+    bPressed = true;
     secondNum = currNum;  //Makes the second number equal to currNum
     currNum = 0;  //Resetting currNum to 0 since second number was obtained
 
@@ -337,6 +347,7 @@ void onClick(){
   }
   else{ //No button was pressed
     noTone(buzzer); //No sound
+    bPressed = false;
   }
 }
 
