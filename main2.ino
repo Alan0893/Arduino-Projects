@@ -20,6 +20,7 @@ boolean gotAns;
 int prevCursor;
 int opPos;
 boolean bPressed;
+long ledTime;
 
 //SETUP 
 void setup()
@@ -27,7 +28,7 @@ void setup()
   Serial.begin(9600);
 
   //LEDs
-  led1 = 8;
+  led1 = 10;
   pinMode(led1, OUTPUT);
 
   //BUTTONS
@@ -66,8 +67,9 @@ void setup()
   posCursor = 0;  //The position of the cursor on the LCD
   gotAns = false; //Checks if answer was obtained
   prevCursor = 0; //Previous cursor on the LCD
-  opPos = 0;   //Position of the operation
-  bPressed = false;
+  opPos = 0;      //Position of the operation
+  bPressed = false;//State of the button
+  ledTime = 0;    //LED lighting future 
 }
 
 void loop() {
@@ -80,6 +82,17 @@ void loop() {
     tone(buzzer, note);
 
   onClick();
+  
+  long time = millis();
+  int ledState = digitalRead(led1);
+  if(ledState == 1){  //LED is on
+    if(time - ledTime >= 1000)
+      digitalWrite(led1, LOW);
+  }
+  else if(digitalRead(b8) == 1){
+    ledTime = millis();
+    digitalWrite(led1, HIGH);
+  }
 }
 void onClick(){
   //The states of the buttons
@@ -316,13 +329,13 @@ void onClick(){
       posCursor++;  //Adding a column to the cursor position
     }
     operation = 4;  //Setting operation to 4 for division
-    future = time + 250;  //Prevents user from pressing button for 1/4 sec
+    future = time;  //Prevents user from pressing button for 1/4 sec
   }
   else if(b8state == 1 && time >= future && !bPressed){  //BUTTON 8 (=)
     bPressed = true;  //Button was pressed
     secondNum = currNum;  //Makes the second number equal to currNum
     currNum = 0;  //Resetting currNum to 0 since second number was obtained
-
+    
     if(operation == 0){ //If there was no answer
       ans = firstNum;   //Then the answer is the first number entered
     }
@@ -343,7 +356,7 @@ void onClick(){
     lcd.print((int)ans); //Prints the answer on the LCD
     gotAns = true;  //Sets gotAns to true, since answer was obtained
 
-    prevCursor = posCursor;
+    prevCursor = posCursor; //Setting the previous cursor position to current position
     posCursor = 0;  //Resets posCursor to 0, since answer was obtained
     operation = 0;  //Operation is reset to 0, for new equation
     future = time + 250;  //Prevents user from pressing button for 1/4 sec
