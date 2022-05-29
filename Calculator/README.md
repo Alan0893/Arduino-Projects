@@ -4,6 +4,10 @@
 ## Tinker Wiring Model
 <img src="https://cdn.discordapp.com/attachments/931553071761334313/936002966576590848/unknown.png" height="341.5" width="611.5" alt="Wiring">
 
+## Tinkercad 3D Model
+<img width="275" alt="image" src="https://user-images.githubusercontent.com/89307499/170894147-c6f485fc-f73f-4c43-8f3b-3663a376c208.png">
+
+
 ## Required Materials
 1. 1 Arduino Uno R3
 2. 1 Breadboard
@@ -15,7 +19,3 @@
 8. 1 Potentiometer (250k ohms)
 9. 1 LCD 16x2
 10. 1 Resistor (220 ohms)
-<img src="https://cdn.discordapp.com/attachments/931315645130350634/936005745726590996/unknown.png" height="342.5" width="400" alt="Components">
-
-## Schematic
-<img src="https://cdn.discordapp.com/attachments/931315645130350634/936007128060133376/unknown.png" height="348" width="462" alt="Schematic">
