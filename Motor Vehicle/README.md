@@ -1,5 +1,5 @@
 # Motor Vehicle
-**Arduino Project #3**
+**Arduino Project #3 - Motor Vehicle**
 
 ## Objective
 Make a vehicle that is able of maneuvering through a pretermined track. 
